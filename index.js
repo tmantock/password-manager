@@ -58,11 +58,16 @@ function search(accountName, key) {
 function list(key) {
     try {
         let accounts = storage.getItemSync('accounts');
-        for (let i = 0; i < accounts.length; i++) {
-            var encryptedAccount = accounts[i];
-            var decryptedAccount = decrypt(encryptedAccount, key);
-            console.log(`Account Name: ${decryptedAccount.name}`);
+        if (accounts.length > 0) {
+            for (let i = 0; i < accounts.length; i++) {
+                var encryptedAccount = accounts[i];
+                var decryptedAccount = decrypt(encryptedAccount, key);
+                console.log(`Account Name: ${decryptedAccount.name}`);
+            }
+        } else {
+            console.log("There are no accounts on record");
         }
+
     } catch (e) {
         console.log("Please check your master password");
     }
@@ -110,7 +115,7 @@ function updateAccount(account, key) {
         let accounts = storage.getItemSync('accounts');
         var foundAccount = search(account.name, key);
         if (foundAccount.status === true) {
-            var encryptingAccount = encrypt(foundAccount.account, key);
+            var encryptingAccount = encrypt(account, key);
             accounts.splice(foundAccount.index, 1, encryptingAccount);
             storage.setItemSync('accounts', accounts);
             console.log(`Account ${account.name} was updated.`);
