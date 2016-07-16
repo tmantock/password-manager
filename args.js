@@ -106,33 +106,37 @@ class argvModule {
       account.name = this.argv.name;
       account.username = this.argv.username;
       account.password = this.argv.password;
-      if (this.command === 'create' && typeof this.argv.name !== 'undefined' && typeof this.argv.username !== 'undefined' && typeof this.argv.password !== 'undefined' && typeof this.argv.masterKey !== 'undefined') {
-        if(!this.argv.name.trim() && !this.argv.username.trim() && !this.argv.password.trim() && !this.argv.masterKey.trim()){
-          console.log("Please enter a valid input.");
-        } else {
-          func(account, key);
-        }
+      if(typeof key !== undefined && key.length >= 8){
+        if (this.command === 'create' && typeof this.argv.name !== 'undefined' && typeof this.argv.username !== 'undefined' && typeof this.argv.password !== 'undefined') {
+          if(!this.argv.name.trim() && !this.argv.username.trim() && !this.argv.password.trim() && !this.argv.masterKey.trim()){
+            console.log("Please enter a valid input.");
+          } else {
+            func(account, key);
+          }
 
-      } else if(this.command === 'passlog' && typeof this.argv.name !== 'undefined' && typeof this.argv.masterKey !== 'undefined'){
-        if(!this.argv.name.trim() && !this.argv.masterKey.trim()){
-          console.log("Please enter a valid account name.");
-        } else {
-          func(accountName, key);
+        } else if(this.command === 'passlog' && typeof this.argv.name !== 'undefined' && typeof this.argv.masterKey !== 'undefined'){
+          if(!this.argv.name.trim() && !this.argv.masterKey.trim()){
+            console.log("Please enter a valid account name.");
+          } else {
+            func(accountName, key);
+          }
+        } else if(this.command === 'update' && typeof this.argv.name !== 'undefined' && typeof this.argv.username !== 'undefined' && typeof this.argv.password !== 'undefined') {
+          if(!this.argv.name.trim() && !this.argv.username.trim() && !this.argv.password.trim() && !this.argv.masterKey.trim()){
+            console.log("Please enter a valid input.");
+          } else {
+            func(account, key);
+          }
+        } else if(this.command === 'delete' && typeof this.argv.name !== 'undefined') {
+          if(!this.argv.name.trim() && !this.argv.masterKey.trim()){
+            console.log("Please enter a valid account name.");
+          } else {
+            func(accountName, key);
+          }
+        } else if(this.command === 'list') {
+          func(key);
         }
-      } else if(this.command === 'update' && typeof this.argv.name !== 'undefined' && typeof this.argv.username !== 'undefined' && typeof this.argv.password !== 'undefined' && typeof this.argv.masterKey !== 'undefined') {
-        if(!this.argv.name.trim() && !this.argv.username.trim() && !this.argv.password.trim() && !this.argv.masterKey.trim()){
-          console.log("Please enter a valid input.");
-        } else {
-          func(account, key);
-        }
-      } else if(this.command === 'delete' && typeof this.argv.name !== 'undefined' && typeof this.argv.masterKey !== 'undefined') {
-        if(!this.argv.name.trim() && !this.argv.masterKey.trim()){
-          console.log("Please enter a valid account name.");
-        } else {
-          func(accountName, key);
-        }
-      } else if(this.command === 'list') {
-        func(key);
+      } else {
+        console.log("Please enter a masterKey with a 8 or more chactacters");
       }
     }
 }
