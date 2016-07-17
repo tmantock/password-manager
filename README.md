@@ -23,7 +23,7 @@ Now to start using the application, you will have to type the following commands
 
 The password manager keeps all your files on record on a local file within a newly created folder called persist. Don't worry, this file will be located within the password-manager directory. All of the accounts within this file are encrypted and require your masterpassword to decrypt them.
 
-### Make sure to only have on master password.
+### Make sure to only have one master password.
 
 To create a new account enter the following command:
 
