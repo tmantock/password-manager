@@ -22,7 +22,7 @@ function encrypt(account, key) {
         var encryptedMessage = crypto.AES.encrypt(JSON.stringify(account), key).toString();
         return encryptedMessage;
     } catch (e) {
-        console.log("Unable to encrypt account.");
+        throw new Error("Unable to encrypt account.");
     }
 }
 
@@ -32,7 +32,7 @@ function decrypt(string, key) {
         var decryptedMessage = JSON.parse(bytes.toString(crypto.enc.Utf8));
         return decryptedMessage;
     } catch (e) {
-        console.log("Unable to decrpty account.");
+        throw new Error("Unable to decrypt account.");
     }
 }
 
