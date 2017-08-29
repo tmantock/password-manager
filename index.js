@@ -1,6 +1,6 @@
-var storage = require('node-persist');
-var argv = require('./args');
-var crypto = require('crypto-js');
+const storage = require('node-persist');
+const argv = require('./args');
+const crypto = require('./crypto')
 storage.initSync();
 
 if (argv.command === 'list') {
@@ -17,51 +17,32 @@ if (argv.command === 'list') {
     console.log("Please enter a valid command type --help to see the list of commands.");
 }
 
-function encrypt(account, key) {
-    try {
-        var encryptedMessage = crypto.AES.encrypt(JSON.stringify(account), key).toString();
-        return encryptedMessage;
-    } catch (e) {
-        throw new Error("Unable to encrypt account.");
-    }
-}
-
-function decrypt(string, key) {
-    try {
-        var bytes = crypto.AES.decrypt(string, key);
-        var decryptedMessage = JSON.parse(bytes.toString(crypto.enc.Utf8));
-        return decryptedMessage;
-    } catch (e) {
-        throw new Error("Unable to decrypt account.");
-    }
-}
-
 function search(accountName, key) {
-    let accounts = storage.getItemSync('accounts');
+    const accounts = storage.getItemSync('accounts');
     for (let i = 0; i < accounts.length; i++) {
-        var encryptedAccount = accounts[i];
-        var decryptedAccount = decrypt(encryptedAccount, key);
+        const encryptedAccount = accounts[i];
+        const decryptedAccount = crypto.decrypt(encryptedAccount, key);
         if (decryptedAccount.name === accountName) {
             return {
                 account: decryptedAccount,
                 index: i,
                 status: true
             };
-        } else {
-            return {
-                status: false
-            };
         }
+        return {
+            status: false
+        };
+
     }
 }
 
 function list(key) {
     try {
-        let accounts = storage.getItemSync('accounts');
+        const accounts = storage.getItemSync('accounts');
         if (accounts.length > 0) {
             for (let i = 0; i < accounts.length; i++) {
-                var encryptedAccount = accounts[i];
-                var decryptedAccount = decrypt(encryptedAccount, key);
+                const encryptedAccount = accounts[i];
+                const decryptedAccount = crypto.decrypt(encryptedAccount, key);
                 console.log(`Account Name: ${decryptedAccount.name}`);
             }
         } else {
@@ -77,17 +58,15 @@ function createAccount(account, key) {
     let accounts = storage.getItemSync('accounts');
     if (typeof accounts === 'undefined') {
         accounts = [];
-    } else if (accounts.length === 0) {
-
-    } else {
-        var foundAccount = search(account.name, key);
+    } else if (accounts.length) {
+        const foundAccount = search(account.name, key);
         if (foundAccount.status === true && foundAccount.account.name === account.name) {
             console.log("This account already exists");
             return;
         }
     }
 
-    var encryptingAccount = encrypt(account, key);
+    const encryptingAccount = crypto.encrypt(account, key);
 
     accounts.push(encryptingAccount);
     storage.setItemSync('accounts', accounts);
@@ -98,7 +77,7 @@ function createAccount(account, key) {
 
 function getAccount(accountName, key) {
     try {
-        var foundAccount = search(accountName, key);
+        const foundAccount = search(accountName, key);
         if (foundAccount.status === true) {
             console.log(foundAccount.account);
             return foundAccount.account;
@@ -112,10 +91,10 @@ function getAccount(accountName, key) {
 
 function updateAccount(account, key) {
     try {
-        let accounts = storage.getItemSync('accounts');
-        var foundAccount = search(account.name, key);
+        const accounts = storage.getItemSync('accounts');
+        const foundAccount = search(account.name, key);
         if (foundAccount.status === true) {
-            var encryptingAccount = encrypt(account, key);
+            const encryptingAccount = crypto.encrypt(account, key);
             accounts.splice(foundAccount.index, 1, encryptingAccount);
             storage.setItemSync('accounts', accounts);
             console.log(`Account ${account.name} was updated.`);
@@ -129,8 +108,8 @@ function updateAccount(account, key) {
 
 function deleteAccount(accountName, key) {
     try {
-        let accounts = storage.getItemSync('accounts');
-        var foundAccount = search(accountName, key);
+        const accounts = storage.getItemSync('accounts');
+        const foundAccount = search(accountName, key);
         if (foundAccount.status === true) {
             accounts.splice(foundAccount.index, 1);
             storage.setItemSync('accounts', accounts);
