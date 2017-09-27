@@ -1,4 +1,5 @@
 # password-manager
+
 A localhost Node JS password manager.
 
 This password manager allows the user to store their accounts (username and passwords) locally in an encrypted file.
@@ -58,3 +59,13 @@ node index.js list -m masterpassword
 ```
 
 Please try it out, hopefully it can provide a solution for your password needs.
+
+# Development
+
+Use the following commands for testing and linting.
+
+```bash
+npm run eslint     # Check for javascript syntax errors
+npm run eslint:fix # Run eslint and attempt to auto-fix errors
+npm run nyc        # Run nyc, print coverage report, then exit
+npm run test       # Runs eslint and nyc

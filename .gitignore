@@ -1,3 +1,18 @@
+# Library files
 /node_modules
+
+# Password store
 /persist
-/try-catch.js
+
+# Code coverage
+.nyc_output/
+coverage/
+
+# Log files
+*.log
+
+# Npm lock file (https://docs.npmjs.com/files/package-lock.json)
+package-lock.json
+
+# Yarn lock file (https://yarnpkg.com)
+yarn.lock

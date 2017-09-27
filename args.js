@@ -1,42 +1,42 @@
 class argvModule {
     constructor() {
         this.argv = require('yargs').command('create', 'Initiate user log', function(yargs) {
-                yargs.options({
-                    masterKey: {
-                        demand: true,
-                        type: "string",
-                        alias: 'm',
-                        description: "Master Key to access account"
-                    },
-                    name: {
-                        demand: true,
-                        type: "string",
-                        alias: 'n',
-                        description: "Name of the account you'd like to store."
-                    },
-                    username: {
-                        demand: true,
-                        type: "string",
-                        alias: 'u',
-                        description: "Username for the account."
-                    },
-                    password: {
-                        demand: true,
-                        type: "string",
-                        alias: 'p',
-                        description: "Password for the account."
-                    }
-                }).help('help');
-            }).command('list', 'List out the accounts on record', function(yargs) {
-                yargs.options({
-                    masterKey: {
-                        demand: true,
-                        type: "string",
-                        alias: 'm',
-                        description: "Master Key to access account"
-                    }
-                }).help('help');
-            })
+            yargs.options({
+                masterKey: {
+                    demand: true,
+                    type: "string",
+                    alias: 'm',
+                    description: "Master Key to access account"
+                },
+                name: {
+                    demand: true,
+                    type: "string",
+                    alias: 'n',
+                    description: "Name of the account you'd like to store."
+                },
+                username: {
+                    demand: true,
+                    type: "string",
+                    alias: 'u',
+                    description: "Username for the account."
+                },
+                password: {
+                    demand: true,
+                    type: "string",
+                    alias: 'p',
+                    description: "Password for the account."
+                }
+            }).help('help');
+        }).command('list', 'List out the accounts on record', function(yargs) {
+            yargs.options({
+                masterKey: {
+                    demand: true,
+                    type: "string",
+                    alias: 'm',
+                    description: "Master Key to access account"
+                }
+            }).help('help');
+        })
             .command('passlog', 'Get appropiate password', function(yargs) {
                 yargs.options({
                     masterKey: {
@@ -100,9 +100,9 @@ class argvModule {
     }
 
     argument(func) {
-        var account = {};
-        var key = this.argv.masterKey;
-        var accountName = this.argv.name;
+        const account = {};
+        const key = this.argv.masterKey;
+        const accountName = this.argv.name;
         account.name = this.argv.name;
         account.username = this.argv.username;
         account.password = this.argv.password;
